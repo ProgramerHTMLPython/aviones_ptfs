@@ -1,2 +1,3 @@
 # aviones_ptfs
-Si te gusta o te empezo a gustar PTFS (Pilot Training Flight Simulator) y nunca sabes cual avion elegir, te dejo un codigo donde puedes usarlo para, al azar, elegir los aeropuertos y aviones para evitar pensarte cual eligo.
+Este codigo es para tienes los pases: F-16 y otros pases que ya no recuerdo, solo te digo eso, pero no te preocupes, puedes editarlo sin ningun compromiso.
+Haces copy paste, modificas haces lo que quieres y ya.
