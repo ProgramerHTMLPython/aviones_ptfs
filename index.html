@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Selector Aleatorio de Aviones y Aeropuertos</title>
+  <style>
+    body {
+      background-color: #383838;
+      color: white;
+      font-family: sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+    h1 {
+      font-family: 'KG Red Hands', sans-serif;
+      margin: 10px 0;
+      background-color: #FFFFFF;
+      color: #383838;
+      display: inline-block;
+      padding: 10px 20px;
+      border-radius: 5px;
+    }
+    .button {
+      background-color: #FEBB00;
+      border: none;
+      padding: 10px 20px;
+      font-size: 1rem;
+      cursor: pointer;
+      margin: 20px;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1 id="avion_label">Avión: ?</h1><br>
+  <h1 id="aeropuerto_inicial_label">Aeropuerto inicial: ?</h1><br>
+  <h1 id="aeropuerto_cercano_label">Aeropuerto cercano (secundario): ?</h1><br>
+
+  <button id="boton" class="button">Elegir Aleatorios</button>
+
+  <script>
+    const aviones_lista = [ /* ...tu lista completa de aviones... */ ];
+    const aviones_grandes = [ /* ...lista de aviones grandes... */ ];
+    const aviones_medianos = [ /* ...lista de aviones medianos... */ ];
+    const aviones_helicopteros = [ /* ...lista de avionetas y helicópteros... */ ];
+    const aeropuertos_lista = [ /* ...lista completa de aeropuertos... */ ];
+    const aeropuertos_pequenos = [ /* ...aeropuertos pequeños... */ ];
+    const aeropuertos_grandes = [ /* ...aeropuertos grandes... */ ];
+    const aeropuertos_cercanos = { /* ...diccionario de cercanos... */ };
+
+    function randomChoice(array) {
+      return array[Math.floor(Math.random() * array.length)];
+    }
+
+    function elegir_avion_y_aeropuertos() {
+      if (aviones_lista.length === 0) return;
+
+      const avion = randomChoice(aviones_lista);
+      document.getElementById("avion_label").textContent = `Avión: ${avion}`;
+
+      let aeropuerto_inicial, aeropuerto_cercano;
+
+      if (aviones_grandes.includes(avion)) {
+        aeropuerto_inicial = randomChoice(aeropuertos_grandes);
+        const posibles = aeropuertos_grandes.filter(a => a !== aeropuerto_inicial);
+        aeropuerto_cercano = posibles.length ? randomChoice(posibles) : aeropuerto_inicial;
+      }
+      else if (aviones_helicopteros.includes(avion)) {
+        aeropuerto_inicial = randomChoice(aeropuertos_pequenos);
+        const cercanos = aeropuertos_cercanos[aeropuerto_inicial] || [];
+        aeropuerto_cercano = cercanos.length ? randomChoice(cercanos) : aeropuerto_inicial;
+      }
+      else {
+        aeropuerto_inicial = randomChoice(aeropuertos_lista);
+        const posibles = aeropuertos_lista.filter(a => a !== aeropuerto_inicial);
+        aeropuerto_cercano = posibles.length ? randomChoice(posibles) : aeropuerto_inicial;
+      }
+
+      document.getElementById("aeropuerto_inicial_label").textContent =
+        `Aeropuerto inicial: ${aeropuerto_inicial}`;
+      document.getElementById("aeropuerto_cercano_label").textContent =
+        `Aeropuerto cercano: ${aeropuerto_cercano}`;
+    }
+
+    document.getElementById("boton").onclick = elegir_avion_y_aeropuertos;
+  </script>
+
+</body>
+</html>
