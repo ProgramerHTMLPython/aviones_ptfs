@@ -1,0 +1,165 @@
+import tkinter as tk
+import random
+
+# Lista completa de aviones
+aviones_lista = [
+    'ATR-72', 'Boeing 727', 'Boeing 737', 'Boeing 747', 'Boeing 757',
+    'Boeing 767', 'Boeing 777', 'Boeing 787', 'Airbus A220', 'Airbus A320',
+    'Airbus A330', 'Airbus A340', 'Airbus A350', 'Airbus A380', 'Concorde',
+    'Bombardier CRJ700', 'Bombardier Q400', 'McDonnell Douglas MD-11', 'McDonnell Douglas MD-90', 'Embraer 170',
+    'Bell 412', 'UH-60 Black Hawk', 'Airbus H135', 'KC-767', 'A330 MRTT',
+    'Antonov An-22', 'Airbus Beluga', 'Boeing DreamLifter', 'Antonov AN-225', 'Cessna Caravan',
+    'DHC-6 Twin Otter', 'Bombardier Learjet', 'Extra 300s', 'Piper PA-28', 'Piper Cub',
+    'Cessna 172', 'Cessna 182', 'Cessna Caravan Skydiving', 'Wright Brothers Plane', 'Cirrus Vision SF50',
+    'Cessna 402', 'F-14 Tomcat', 'F-15E Strike Eagle', 'F-16 Fighting Falcon', 'F/A-18 Super Hornet',
+    'F-22 Raptor', 'F-35B', 'A-10 Warthog', 'B-2 Spirit', 'Eurofighter Typhoon',
+    'Hawk T1', 'Sukhoi Su-27', 'Boeing P-8 Poseidon', 'Sukhoi Su-57', 'EC-18B',
+    'E-3 Sentry'
+]
+
+# Aviones grandes
+aviones_grandes = [
+    'Boeing 747', 'Boeing 767', 'Boeing 777', 'Boeing 787',
+    'Airbus A330', 'Airbus A340', 'Airbus A350', 'Airbus A380',
+    'McDonnell Douglas MD-11', 'Antonov An-22', 'Antonov AN-225',
+    'Airbus Beluga', 'Boeing DreamLifter', 'KC-767', 'A330 MRTT',
+    'B-2 Spirit', 'E-3 Sentry', 'EC-18B', 'Boeing P-8 Poseidon',
+    'Airbus A320', 'Boeing 737', 'McDonnell Douglas MD-90', 'Concorde'
+]
+
+aviones_medianos = [
+    'ATR-72',
+    'Boeing 727',
+    'Boeing 737',
+    'Boeing 757',
+    'Airbus A220',
+    'Airbus A320',
+    'Bombardier CRJ700',
+    'Bombardier Q400',
+    'McDonnell Douglas MD-90',
+    'Embraer 170',
+    'Cessna 402'
+]
+
+
+# Avionetas y helicópteros
+aviones_helicopteros = [
+    'Cessna Caravan', 'DHC-6 Twin Otter', 'Bombardier Learjet', 'Extra 300s',
+    'Piper PA-28', 'Piper Cub', 'Cessna 172', 'Cessna 182',
+    'Cessna Caravan Skydiving', 'Wright Brothers Plane', 'Cirrus Vision SF50',
+    'Cessna 402', 'Bell 412', 'UH-60 Black Hawk', 'Airbus H135'
+]
+
+
+# Lista de aeropuertos
+aeropuertos_lista = [
+    'USS Gerald R. Ford', 'Tokyo Intl.', 'RAF Scampton', 'Al Najaf', 'Izolirani Intl.',
+    'Lukla Airport', 'Perth Intl.', 'Paphos Intl.', 'McConnell AFB', 'Larnaca Intl',
+    'Southampton', 'Air Base Garry', 'Greater Rockford', 'Boltic Airfield',
+    'HMS Queen Elizabeth', 'Mellor Intl.', 'Skopelos Airfield', 'Oil Rig',
+    'Henstridge Airfield', 'Sea Heaven', 'Saint Barthelemy', 'Saba',
+    'Grindavik', 'Tavaro Seabase', 'Road Base', 'Sauthemptona'
+]
+
+# Aeropuertos pequeños
+aeropuertos_pequenos = [
+    'USS Gerald R. Ford', 'RAF Scampton', 'Al Najaf', 'Izolirani Intl.',
+    'Lukla Airport', 'Paphos Intl.', 'Southampton', 'Air Base Garry',
+    'Boltic Airfield', 'HMS Queen Elizabeth', 'Skopelos Airfield', 'Oil Rig', 'Sauthemptona', 'Road Base',
+]
+
+aeropuertos_grandes = [
+    'Tokyo Intl.',          # Internacional real
+    'Perth Intl.',          # Internacional real
+    'Larnaca Intl',         # Internacional
+    'Greater Rockford',     # Nombre sugiere aeropuerto grande
+    'McConnell AFB',        # Base militar aérea
+    'Mellor Intl.',         # Internacional
+    'Izolirani Intl.',      # Internacional (aunque inventado)           # Real y grande
+]
+
+
+aeropuertos_cercanos = {
+    'Greater Rockford': ['Air Base Garry', 'Mellor Intl.', 'Boltic Airfield', 'Road Base', 'HMS Queen Elizabeth'],
+    'Air Base Garry': ['Greater Rockford', 'Mellor Intl.', 'Boltic Airfield', 'Road Base', 'HMS Queen Elizabeth'],
+    'Mellor Intl.': ['Greater Rockford', 'Air Base Garry', 'Boltic Airfield', 'Road Base', 'HMS Queen Elizabeth', 'Sauthemptona'],
+    'Boltic Airfield': ['Greater Rockford', 'Air Base Garry', 'Mellor Intl.', 'Road Base', 'HMS Queen Elizabeth'],
+
+    'Larnaca Intl': ['McConnell AFB', 'Paphos Intl.', 'Henstridge Airfield', 'Skopelos Airfield'],
+    'McConnell AFB': ['Larnaca Intl', 'Paphos Intl.', 'Henstridge Airfield', 'Skopelos Airfield'],
+    'Paphos Intl.': ['Larnaca Intl', 'McConnell AFB', 'Henstridge Airfield', 'Skopelos Airfield'],
+    'Henstridge Airfield': ['Larnaca Intl', 'McConnell AFB', 'Paphos Intl.', 'Skopelos Airfield'],
+    'Skopelos Airfield': ['Larnaca Intl', 'McConnell AFB', 'Paphos Intl.', 'Henstridge Airfield'],
+
+    'Perth Intl.': ['Lukla Airport', 'Sea Heaven', 'Saint Barthelemy'],
+    'Lukla Airport': ['Perth Intl.', 'Sea Heaven', 'Saint Barthelemy'],
+    'Saint Barthelemy': ['Perth Intl.', 'Lukla Airport', 'Sea Heaven'],
+    'Sea Heaven': ['Perth Intl.', 'Lukla Airport', 'Saint Barthelemy'],
+
+    'Tokyo Intl.': ['Saba', 'USS Gerald R. Ford'],
+    'Saba': ['Tokyo Intl.', 'USS Gerald R. Ford'],
+
+    'Grindavik': ['Tavaro Seabase'],
+    'Tavaro Seabase': ['Grindavik'],
+
+    'Izolirani Intl.': ['Al Najaf', 'RAF Scampton'],
+    'Al Najaf': ['Izolirani Intl.', 'RAF Scampton'],
+    'RAF Scampton': ['Izolirani Intl.', 'Al Najaf'],
+
+    'Sauthemptona': ['Mellor Intl.'],
+}
+
+# Colores
+COLOR_FONDO = "#383838"
+COLOR_TEXTO = '#FFFFFF'
+COLOR_BOTON = '#FEBB00'
+
+def elegir_avion_y_aeropuertos():
+    if aviones_lista:
+        avion_elegido = random.choice(aviones_lista)
+        avion_label.config(text=f"Avión: {avion_elegido}")
+
+        # Aviones grandes: solo aeropuertos grandes
+        if avion_elegido in aviones_grandes:
+            aeropuerto_inicial = random.choice(aeropuertos_grandes)
+            posibles_cercanos = [a for a in aeropuertos_grandes if a != aeropuerto_inicial]
+            aeropuerto_cercano = random.choice(posibles_cercanos) if posibles_cercanos else aeropuerto_inicial
+
+        # Avionetas o helicópteros: solo aeropuertos pequeños
+        elif avion_elegido in aviones_helicopteros:
+            aeropuerto_inicial = random.choice(aeropuertos_pequenos)
+            cercanos = aeropuertos_cercanos.get(aeropuerto_inicial, [])
+            aeropuerto_cercano = random.choice(cercanos) if cercanos else aeropuerto_inicial
+        # Aviones medianos o no clasificados: cualquier aeropuerto
+        else:
+            aeropuerto_inicial = random.choice(aeropuertos_lista)
+            posibles_cercanos = [a for a in aeropuertos_lista if a != aeropuerto_inicial]
+            aeropuerto_cercano = random.choice(posibles_cercanos) if posibles_cercanos else aeropuerto_inicial
+
+        aeropuerto_inicial_label.config(text=f"Aeropuerto inicial: {aeropuerto_inicial}")
+        aeropuerto_cercano_label.config(text=f"Aeropuerto cercano: {aeropuerto_cercano}")
+    else:
+        avion_label.config(text="Avión: No definido")
+        aeropuerto_inicial_label.config(text="Aeropuerto inicial: No definido")
+        aeropuerto_cercano_label.config(text="Aeropuerto cercano: No definido")
+
+
+# Interfaz
+root = tk.Tk()
+root.title("Selector Aleatorio de Aviones y Aeropuertos")
+root.geometry("500x247")
+root.configure(bg=COLOR_FONDO)
+
+avion_label = tk.Label(root, text="Avión: ?", font=("KG Red Hands", 15), bg=COLOR_TEXTO)
+avion_label.pack(pady=10)
+
+aeropuerto_inicial_label = tk.Label(root, text="Aeropuerto inicial: ?", font=("KG Red Hands", 15), bg=COLOR_TEXTO)
+aeropuerto_inicial_label.pack(pady=10)
+
+aeropuerto_cercano_label = tk.Label(root, text="Aeropuerto cercano(secundario): ?", font=("KG Red Hands", 15), bg=COLOR_TEXTO)
+aeropuerto_cercano_label.pack(pady=10)
+
+boton = tk.Button(root, text="Elegir Aleatorios", command=elegir_avion_y_aeropuertos, bg=COLOR_BOTON)
+boton.pack(pady=10)
+
+root.mainloop()
