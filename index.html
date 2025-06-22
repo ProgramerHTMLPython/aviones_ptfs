@@ -42,6 +42,7 @@
   <button id="boton" class="button">Elegir Aleatorios</button>
 
   <script>
+    // Listas de aviones
     const aviones_lista = [
       'ATR-72', 'Boeing 727', 'Boeing 737', 'Boeing 747', 'Boeing 757',
       'Boeing 767', 'Boeing 777', 'Boeing 787', 'Airbus A220', 'Airbus A320',
@@ -71,6 +72,22 @@
 
     const aviones_helicopteros = ['Bell 412', 'UH-60 Black Hawk', 'Airbus H135'];
 
+    const aviones_pequenos = [
+      'Extra 300s',
+      'Piper PA-28',
+      'Piper Cub',
+      'Cessna 172',
+      'Cessna 182',
+      'Cessna Caravan',
+      'Cessna Caravan Skydiving',
+      'Wright Brothers Plane',
+      'Cirrus Vision SF50',
+      'Cessna 402',
+      'Bombardier Learjet',
+      'DHC-6 Twin Otter'
+    ];
+
+    // Aeropuertos
     const aeropuertos_militares = ["McConnell AFB", 'Air Base Garry', 'RAF Scampton'];
     const aeropuertos_portaaviones = ["USS Gerald R. Ford", "HMS Queen Elizabeth"];
     const aeropuertos_grandes = [
@@ -84,6 +101,7 @@
       'Saba', 'Grindavik', 'Sauthemptona', 
     ];
 
+    // Aeropuertos combinados para elección general
     const aeropuertos_lista = [
       ...aeropuertos_portaaviones,
       ...aeropuertos_militares,
@@ -91,6 +109,7 @@
       ...aeropuertos_pequenos.filter(a => !aeropuertos_portaaviones.includes(a) && !aeropuertos_militares.includes(a))
     ];
 
+    // Vecinos reales para aeropuertos
     const aeropuertos_cercanos = {
       'Greater Rockford': ['Air Base Garry', 'Mellor Intl.', 'Boltic Airfield', 'Road Base', 'HMS Queen Elizabeth'],
       'Air Base Garry': ['Greater Rockford', 'Mellor Intl.', 'Boltic Airfield', 'Road Base', 'HMS Queen Elizabeth'],
@@ -115,19 +134,18 @@
       'Sauthemptona': ['Mellor Intl.'],
     };
 
-const aviones_militares = [
-  'B-1 Lancer', 'C-17 Globemaster III', 'E-3 Sentry', 'EC-18B', 'Boeing P-8 Poseidon',
-  'Avro Vulcan', 'B-29', 'KC-1', 'KC-707', 'KC-130J', 'KC-767', 'C-130 Hercules',
-  'SR-71 Blackbird', 'B-2 Bomber', 'A330 MRTT'
-];
+    const aviones_militares = [
+      'B-1 Lancer', 'C-17 Globemaster III', 'E-3 Sentry', 'EC-18B', 'Boeing P-8 Poseidon',
+      'Avro Vulcan', 'B-29', 'KC-1', 'KC-707', 'KC-130J', 'KC-767', 'C-130 Hercules',
+      'SR-71 Blackbird', 'B-2 Bomber', 'A330 MRTT'
+    ];
 
-
-const jets_militares = [
-  'A-10 Warthog', 'Eurofighter Typhoon', 'F/A-18 Super Hornet',
-  'F-14 Tomcat', 'F-15 Strike Eagle', 'F-16 Fighting Falcon', 'F-22 Raptor', 'Hawk T1',
-  'JAS 39 Gripen', 'Sukhoi Su-27', 'Sukhoi Su-57', 'English Electric Lightning',
-  'F-4 Phantom', 'Hawker Harrier', 'MiG-15', 'P-38 Lightning'
-];
+    const jets_militares = [
+      'A-10 Warthog', 'Eurofighter Typhoon', 'F/A-18 Super Hornet',
+      'F-14 Tomcat', 'F-15 Strike Eagle', 'F-16 Fighting Falcon', 'F-22 Raptor', 'Hawk T1',
+      'JAS 39 Gripen', 'Sukhoi Su-27', 'Sukhoi Su-57', 'English Electric Lightning',
+      'F-4 Phantom', 'Hawker Harrier', 'MiG-15', 'P-38 Lightning'
+    ];
 
     function randomChoice(array) {
       return array[Math.floor(Math.random() * array.length)];
@@ -142,35 +160,32 @@ const jets_militares = [
       let aeropuerto_inicial = null;
       let aeropuerto_cercano = null;
 
-      if (aviones_militares.includes(avion) && !jets_militares.includes(avion)) {
+      if (aviones_pequenos.includes(avion)) {
+        aeropuerto_inicial = randomChoice(aeropuertos_pequenos);
+      } else if (aviones_grandes.includes(avion)) {
+        aeropuerto_inicial = randomChoice(aeropuertos_grandes);
+      } else if (aviones_militares.includes(avion) && !jets_militares.includes(avion)) {
         aeropuerto_inicial = randomChoice(aeropuertos_militares);
-        let posibles = aeropuertos_militares.filter(a => a !== aeropuerto_inicial);
-        if (posibles.length === 0) {
-          posibles = aeropuertos_grandes.filter(a => a !== aeropuerto_inicial);
-        }
-        aeropuerto_cercano = posibles.length ? randomChoice(posibles) : "(sin alterno)";
       } else if (jets_militares.includes(avion)) {
         aeropuerto_inicial = randomChoice(
           aeropuertos_lista.filter(a => !aeropuertos_pequenos.includes(a))
         );
-        const posibles = aeropuertos_lista.filter(a => a !== aeropuerto_inicial && !aeropuertos_pequenos.includes(a));
-        aeropuerto_cercano = posibles.length ? randomChoice(posibles) : aeropuerto_inicial;
-      } else if (aeropuertos_portaaviones.includes(avion)) {
-        aeropuerto_inicial = randomChoice(aeropuertos_portaaviones);
-        const posibles = aeropuertos_portaaviones.filter(a => a !== aeropuerto_inicial);
-        aeropuerto_cercano = posibles.length ? randomChoice(posibles) : aeropuerto_inicial;
       } else if (aviones_helicopteros.includes(avion)) {
         aeropuerto_inicial = randomChoice(aeropuertos_pequenos);
-        const cercanos = aeropuertos_cercanos[aeropuerto_inicial] || [];
-        aeropuerto_cercano = cercanos.find(a => a !== aeropuerto_inicial) || aeropuerto_inicial;
-      } else if (aviones_grandes.includes(avion)) {
-        aeropuerto_inicial = randomChoice(aeropuertos_grandes);
-        const posibles = aeropuertos_grandes.filter(a => a !== aeropuerto_inicial);
-        aeropuerto_cercano = posibles.length ? randomChoice(posibles) : aeropuerto_inicial;
       } else {
         aeropuerto_inicial = randomChoice(aeropuertos_lista);
-        const posibles = aeropuertos_lista.filter(a => a !== aeropuerto_inicial);
-        aeropuerto_cercano = posibles.length ? randomChoice(posibles) : aeropuerto_inicial;
+      }
+
+      // Elegir aeropuerto cercano según vecinos reales
+      const vecinos = aeropuertos_cercanos[aeropuerto_inicial] || [];
+      const posibles_cercanos = vecinos.filter(a => a !== aeropuerto_inicial);
+
+      if (posibles_cercanos.length > 0) {
+        aeropuerto_cercano = randomChoice(posibles_cercanos);
+      } else {
+        // Si no hay vecinos, elegir cualquiera distinto al inicial
+        const otros = aeropuertos_lista.filter(a => a !== aeropuerto_inicial);
+        aeropuerto_cercano = otros.length > 0 ? randomChoice(otros) : aeropuerto_inicial;
       }
 
       document.getElementById("aeropuerto_inicial_label").textContent =
