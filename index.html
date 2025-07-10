@@ -2,37 +2,87 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Selector Aleatorio de Aviones y Aeropuertos</title>
   <style>
-    body {
-      background-color: #383838;
-      color: #FFFFFF;
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100%;
       font-family: "KG Red Hands", sans-serif;
+      background: linear-gradient(to bottom, #FFF402, #1D1F20); /* 🎨 Cambia estos colores */
+      color: #FFFFFF;
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
       text-align: center;
-      padding-top: 45px;
+      padding: 20px;
     }
+
+    .contenedor {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 90%;
+      max-width: 600px;
+      padding: 2em;
+      background-color: rgba(0, 0, 0, 0.25);
+      border-radius: 16px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    }
+
     .label {
-      font-size: 30px;
-      margin: 22px 0;
+      font-size: clamp(1.5rem, 2.5vw, 2rem);
+      margin: 1em 0;
+      word-wrap: break-word;
     }
+
     .boton {
       background-color: #FEBB00;
       color: black;
       border: none;
-      padding: 15px 30px;
-      font-size: 24px;
+      padding: 0.8em 2em;
+      font-size: 1.2em;
       cursor: pointer;
-      margin-top: 15px;
+      border-radius: 8px;
+      transition: background-color 0.3s ease;
+      font-family: "KG Red Hands", sans-serif;
+    }
+
+    .boton:hover {
+      background-color: #e0a800;
+    }
+
+    @media (max-width: 480px) {
+      .label {
+        font-size: 1.3em;
+      }
+
+      .boton {
+        font-size: 1em;
+        padding: 0.6em 1.5em;
+      }
     }
   </style>
 </head>
 <body>
+  <div class="contenedor">
     <div id="avion" class="label">Avión: ?</div>
     <div id="aeropuerto-inicial" class="label">Aeropuerto inicial: ?</div>
     <div id="aeropuerto-cercano" class="label">Aeropuerto cercano: ?</div>
     <button class="boton" onclick="elegirAvionYAeropuertos()">Elegir Aleatorios</button>
+  </div>
 
-    <script>
+  <script>
         const aeropuertos_lista = [
             "USS Gerald R. Ford", "HMS Queen Elizabeth", "McConnell AFB", "Air Base Garry", "RAF Scampton",
             "Tokyo Intl.", "Perth Intl.", "Larnaca Intl", "Greater Rockford", "Mellor Intl.", "Izolirani Intl.",
